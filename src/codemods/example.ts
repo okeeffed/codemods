@@ -1,20 +1,9 @@
+import { format, resolveConfigFile } from "prettier";
 import { Project, SyntaxKind } from "ts-morph";
 
-export const handler = () => {
-  // Initialize a new Project
-  const project = new Project();
-
+export const example = async (filePath: string, project: Project) => {
   // Add the source file you want to transform
-  const sourceFile = project.createSourceFile(
-    "example.js",
-    `
-function mockExample() {
-  return {
-     a: true
-  }
-}
-`
-  );
+  const sourceFile = project.addSourceFileAtPath(filePath);
 
   // Find all function declarations in the file
   sourceFile.getFunctions().forEach((func) => {
@@ -42,5 +31,15 @@ function mockExample() {
   });
 
   // Save the changes to the file
-  return sourceFile.getText();
+  const text = sourceFile.getText();
+
+  const prettierConfig = resolveConfigFile();
+
+  // Format the result using Prettier
+  const formatted = format(text, {
+    ...prettierConfig,
+    parser: "typescript",
+  });
+
+  return formatted;
 };

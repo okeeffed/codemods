@@ -1,9 +1,25 @@
-import { handler } from "./example";
+import { Project } from "ts-morph";
+import { example } from "./example";
 
-describe("hello template file", () => {
-  test("expect helloTemplate fn output to match snapshot", () => {
-    const str = handler();
+const EXAMPLE_TS = `function mockExample() {
+	return {
+			a: true,
+	};
+}`;
 
-    expect(str).toMatchSnapshot();
+describe("example codemod", () => {
+  test("expect snapshot to match", async () => {
+    // Initialize a new Project
+    const project = new Project({
+      useInMemoryFileSystem: true,
+    });
+
+    // Add a file directly in the in-memory file system
+    const filePath = "/mock/example.ts";
+
+    project.createSourceFile(filePath, EXAMPLE_TS, { overwrite: true });
+    const result = await example(filePath, project);
+
+    expect(result).toMatchSnapshot();
   });
 });

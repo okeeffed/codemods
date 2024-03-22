@@ -5,6 +5,6 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["index.ts"],
+  entry: ["src/index.ts"],
   sourcemap: true,
 });
