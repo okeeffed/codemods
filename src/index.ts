@@ -104,8 +104,9 @@ async function main() {
 
       if (args["dry-run"]) {
         console.log(chalk.bgGreen(file));
-        console.log(result + "\n\n");
+        console.log(result + "\n");
       } else {
+        console.log(chalk.green("Writing to file:"), chalk.bgGreen(file));
         project.saveSync();
       }
     }
