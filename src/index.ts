@@ -106,8 +106,8 @@ async function main() {
         console.log(chalk.bgGreen(file));
         console.log(result + "\n");
       } else {
-        console.log(chalk.green("Writing to file:"), chalk.bgGreen(file));
         project.saveSync();
+        console.log(chalk.green("Modified:"), file);
       }
     }
   } catch (error) {
