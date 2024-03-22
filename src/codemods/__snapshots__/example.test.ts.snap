@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hello template file expect helloTemplate fn output to match snapshot 1`] = `
+"const mockExample = () => ({
+     a: true
+  });
+"
+`;
