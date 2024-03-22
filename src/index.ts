@@ -10,6 +10,8 @@ import { Project } from "ts-morph";
 import yargs from "yargs-parser";
 import chalk from "chalk";
 
+const CODEMOD_FNS = ["example"];
+
 const onCancel = () => {
   console.log("Operation canceled.");
   process.exit(0);
@@ -57,7 +59,7 @@ function ignoreFunc(file: string) {
 async function main() {
   try {
     const args = yargs(process.argv.slice(2));
-    const configPath = await findUp("codemod.config.js");
+    const configPath = await findUp("codemod.config.mjs");
 
     if (!configPath) {
       console.error("No config file found. Exiting...");
@@ -68,25 +70,17 @@ async function main() {
       console.log(chalk.yellow("Dry run enabled. Skipping file write."));
     }
 
-    const config = await import(configPath);
-
-    const codemodDirPath = path.join(__dirname, "codemods");
-    const files = await rrd(codemodDirPath, [ignoreFunc]);
-
+    const { default: config } = await import(configPath);
     const { fn } = await prompts(
       {
         type: "autocomplete",
         name: "fn",
         message: "Enter the AWS profile name",
         suggest,
-        choices: files.map((filepath) => {
-          const name = path.basename(filepath).replace(".ts", "");
-
-          return {
-            title: name,
-            value: name,
-          };
-        }),
+        choices: CODEMOD_FNS.map((name) => ({
+          title: name,
+          value: name,
+        })),
       },
       {
         onCancel,

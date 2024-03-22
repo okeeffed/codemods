@@ -1,4 +1,4 @@
-import { format, resolveConfigFile } from "prettier";
+import prettier from "prettier";
 import { Project, SyntaxKind } from "ts-morph";
 
 export const example = async (filePath: string, project: Project) => {
@@ -33,10 +33,10 @@ export const example = async (filePath: string, project: Project) => {
   // Save the changes to the file
   const text = sourceFile.getText();
 
-  const prettierConfig = resolveConfigFile();
+  const prettierConfig = prettier.resolveConfigFile();
 
   // Format the result using Prettier
-  const formatted = format(text, {
+  const formatted = prettier.format(text, {
     ...prettierConfig,
     parser: "typescript",
   });
