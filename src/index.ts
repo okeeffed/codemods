@@ -8,6 +8,7 @@ import path from "path";
 import { findUp } from "find-up";
 import { Project } from "ts-morph";
 import yargs from "yargs-parser";
+import chalk from "chalk";
 
 const onCancel = () => {
   console.log("Operation canceled.");
@@ -63,6 +64,10 @@ async function main() {
       process.exit(1);
     }
 
+    if (args["dry-run"]) {
+      console.log(chalk.yellow("Dry run enabled. Skipping file write."));
+    }
+
     const config = await import(configPath);
 
     const codemodDirPath = path.join(__dirname, "codemods");
@@ -98,7 +103,8 @@ async function main() {
       const result = await modFn(file, project);
 
       if (args["dry-run"]) {
-        console.log(result);
+        console.log(chalk.bgGreen(file));
+        console.log(result + "\n\n");
       } else {
         project.saveSync();
       }
