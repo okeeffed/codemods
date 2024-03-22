@@ -1,7 +1,7 @@
 {
   "name": "@okeeffed/codemods",
   "main": "dist/index.js",
-  "version": "0.0.11",
+  "version": "0.0.1",
   "author": "Dennis O'Keeffe",
   "license": "CC-BY-NC-4.0",
   "files": [
